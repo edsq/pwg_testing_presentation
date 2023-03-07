@@ -4,9 +4,12 @@ SHELL = /bin/bash
 
 GET_RESOURCES = git clone git@gitlab.com:wsu-courses/iscimath-583-learning-from-images-and-signals_resources.git _ext/Resources
 
+PYTHON_VER ?= 3.11
+PRE ?= PDM_USE_VENV=1 PDM_VENV_BACKEND=virtualenv PDM_IGNORE_SAVED_PYTHON=1
 PDM ?= pdm
 RUN ?= $(PDM) run
 JUPYTEXT ?= $(RUN) jupytext
+KERNEL ?= pwg-testing
 
 # ------- Top-level targets  -------
 # Default prints a help message
@@ -16,7 +19,15 @@ help:
 usage:
 	@echo "$$HELP_MESSAGE"
 
-init:
+init: .venv/bin/python$(PYTHON_VER)
+	$(PRE) $(PDM) update
+	$(PRE) $(PDM) install -G :all
+ifdef KERNEL
+	$(PRE) $(RUN) python3 -m ipykernel install --user --name "$(KERNEL)" --display-name "Python 3 ($(KERNEL))"
+endif
+
+.venv/bin/python$(PYTHON_VER):
+	$(PRE) $(PDM) venv create --force $(PYTHON_VER)
 
 # Jupytext
 sync:
@@ -34,7 +45,10 @@ clean:
 
 
 realclean:
-	-$(PDM) venv remove
+ifdef KERNEL
+	-$(PRE) $(RUN) jupyter kernelspec uninstall -f "$(KERNEL)"
+endif
+	-$(RM) -r __pypackage__ .venv
 
 
 test:
@@ -53,8 +67,12 @@ Variables:
                      Defaults to `conda activate`.
    PDM: (= "$(PDM)")
                      Command to run `pdm`.
+   PYTHON_VER: (= "$(PYTHON_VER)")
+                     Version of python to use in the virtual environment.
    PRE: (= "$(PRE)")
                      Can be used to set environmental variables before commands.
+   KERNEL: (= "$(KERNEL)")
+                     Name of IPython kernel to install.  Kernel not installed if empty.
 
 Initialization:
    make init         Initialize the environment and kernel.

@@ -22,10 +22,15 @@ tools = [
     "flake8>=6.0.0",
 ]
 presentation = [
+    # https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator/issues/151
+    "nbclassic<0.5",
+    
     "jupyter>=1.0.0",
     "notebook>=6.5.2",
     "jupytext>=1.14.5",
     "RISE>=5.7.1",
+    "jupyter-contrib-nbextensions>=0.7.0",
+    "jupyter-nbextensions-configurator>=0.6.1",
 ]
 
 
