@@ -261,6 +261,32 @@ Now you can:
 
 # Deploying on [GitHub][] and [GitLab][]
 
+## Continuous Integration (CI)
+
+https://docs.gitlab.com/ee/ci/examples/#cicd-templates
+
+A challenge with CI is installing the versions of python needed.  Here are several options:
+
+### [Nox][] with [Conda][]
+
+Here we use [conda][] in the `noxfile.py`: this will install the versions of python
+needed on the fly.  This is one of the simplest approaches, but has the disadvantage
+that either all versions pass, or all versions fail.
+
+```yaml
+#.gitlab-ci-yml
+
+image: continuumio/miniconda3:latest
+
+before_script:
+  - pip install pipx
+  
+test:
+  script:
+    - pipx run nox -s test_conda
+```
+
+
 ## Mercurial
 
 I prefer to use [mercurial][], so to push to [GitHub][] and [GitLab][], I use
@@ -303,9 +329,6 @@ I prefer to use [mercurial][], so to push to [GitHub][] and [GitLab][], I use
     ```
 
 
-and 
-
-
 [conda]: https://docs.conda.io/en/latest/
 [miniconda]: https://docs.conda.io/en/latest/miniconda.html
 [pdm]: https://pdm.fming.dev/latest/
@@ -318,3 +341,4 @@ and
 [evolve]: https://www.mercurial-scm.org/doc/evolution/
 [pipx]: https://pypa.github.io/pipx/
 [make]: https://www.gnu.org/software/make/
+[parallel:matrix]: https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix

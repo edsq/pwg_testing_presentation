@@ -51,7 +51,7 @@ realclean: clean
 ifdef KERNEL
 	-$(PRE) $(RUN) jupyter kernelspec uninstall -f "$(KERNEL)"
 endif
-	-$(RM) -r __pypackage__ .venv .nox
+	-$(RM) -r __pypackage__ .venv .nox *.egg-info
 	$(MAKE) -C Presentation realclean
 
 

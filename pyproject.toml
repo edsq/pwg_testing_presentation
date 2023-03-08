@@ -1,7 +1,7 @@
 [project]
-name = ""
-version = ""
-description = ""
+name = "pwg-testing"
+version = "0.1"
+description = "WSU Python Working Group presentation 8 March 2023: Testing with Python"
 authors = [
     {name = "Michael McNeil Forbes", email = "m.forbes+pwg@wsu.edu"},
 ]
