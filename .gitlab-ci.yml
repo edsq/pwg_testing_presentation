@@ -1,24 +1,25 @@
-image: continuumio/miniconda3:latest
+# image: continuumio/miniconda3:latest
 
-before_script:
-  - pip install pipx
+# before_script:
+#   - pip install pipx
   
+# test:
+#   parallel:
+#     matrix:
+#       - PYTHON: ["3.9", "3.10", "3.11"]
+#   script:
+#     - pipx run nox -s test_conda --python $PYTHON
+
+default:
+  before_script:
+    - pip install pdm
+
 test:
   parallel:
     matrix:
-      - PYTHON: ["3.9", "3.10", "3.11"]
+     - PYTHON: ["3.9", "3.10", "3.11"]
+  image: python:$PYTHON
   script:
-    - pipx run nox -s test_conda --python $PYTHON
+    - pdm install -G test
+    - pdm run pytest
 
-# image: python:3.9
-
-# default:
-#   before_script:
-#     - pip install pdm
-# #  parallel:
-# #    matrix:
-# #      - PYTHON: [3.9, 3.10, 3.11]
-# test:
-#   script:
-#     - pdm install -G test tools
-#     - pdm run nox --python 3.9

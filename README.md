@@ -286,6 +286,8 @@ test:
     - pipx run nox -s test_conda
 ```
 
+You can instead use [parallel:matrix][], but you must specify the versions of python you
+want to test against here.  This is a bit redundant.
 
 ```yaml
 #.gitlab-ci-yml
@@ -298,30 +300,9 @@ before_script:
 test:
   parallel:
     matrix:
-      - PYTHON: [3.9, 3.10, 3.11]
+      - PYTHON: ["3.9", "3.10", "3.11"]
   script:
     - pipx run nox -s test_conda --python $PYTHON
-```
-
-### Using a Matrix
-
-Another option uses [parallel:matrix][].  This provides different tests, but you need to
-specify the versions of python in the CI file.
-
-```yaml
-#.gitlab-ci-yml
-
-default:
-  before_script:
-    - pip install pdm
-
-test:
-  parallel:
-    matrix:
-      - PYTHON: [3.9, 3.10, 3.11]
-  image: python:$PYTHON
-  script:
-    - pdm run nox --python $PYTHON
 ```
 
 
