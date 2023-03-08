@@ -287,6 +287,44 @@ test:
 ```
 
 
+```yaml
+#.gitlab-ci-yml
+
+image: continuumio/miniconda3:latest
+
+before_script:
+  - pip install pipx
+  
+test:
+  parallel:
+    matrix:
+      - PYTHON: [3.9, 3.10, 3.11]
+  script:
+    - pipx run nox -s test_conda --python $PYTHON
+```
+
+### Using a Matrix
+
+Another option uses [parallel:matrix][].  This provides different tests, but you need to
+specify the versions of python in the CI file.
+
+```yaml
+#.gitlab-ci-yml
+
+default:
+  before_script:
+    - pip install pdm
+
+test:
+  parallel:
+    matrix:
+      - PYTHON: [3.9, 3.10, 3.11]
+  image: python:$PYTHON
+  script:
+    - pdm run nox --python $PYTHON
+```
+
+
 ## Mercurial
 
 I prefer to use [mercurial][], so to push to [GitHub][] and [GitLab][], I use
