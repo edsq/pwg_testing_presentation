@@ -1,5 +1,9 @@
 # Testing with Python: WSU Python Working Group - 8 March 2023
 
+[![pipeline status][]](https://gitlab.com/wsu-courses/pwg/2023-testing-with-python/-/commits/main)
+
+[pipeline status]: https://gitlab.com/wsu-courses/pwg/2023-testing-with-python/badges/main/pipeline.svg
+
 ## TL;DR
 
 ```bash
@@ -303,6 +307,42 @@ test:
       - PYTHON: ["3.9", "3.10", "3.11"]
   script:
     - pipx run nox -s test_conda --python $PYTHON
+```
+
+### Badges
+
+Once you get your tests passing, you can add badges like at the top of these files.  To
+get these, visit:
+
+* *Settings->CI/CD->General pipelines*.
+
+To get the coverage reports working, see their [Python
+example](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html#python-example).
+Basically, we get the coverage package to output `coverage.xml` (which we do in
+`pyproject.toml`) and then point [GitLab][] to it:
+
+```yaml
+#.gitlab-ci-yml
+
+image: continuumio/miniconda3:latest
+
+before_script:
+  - pip install pipx
+  
+test:
+  parallel:
+    matrix:
+      - PYTHON: ["3.9", "3.10", "3.11"]
+  script:
+    - pipx run nox -s test_conda --python $PYTHON
+  artifacts:
+    reports:
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+         path: coverage.xml
 ```
 
 
