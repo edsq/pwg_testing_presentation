@@ -24,13 +24,18 @@ tools = [
 presentation = [
     # https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator/issues/151
     "nbclassic<0.5",
-    
     "jupyter>=1.0.0",
     "notebook>=6.5.2",
     "jupytext>=1.14.5",
     "RISE>=5.7.1",
     "jupyter-contrib-nbextensions>=0.7.0",
     "jupyter-nbextensions-configurator>=0.6.1",
+    "matplotlib>=3.7.1",
+    "numpy>=1.24.2",
+]
+optimization = [
+    "line-profiler>=4.0.3",
+    "snakeviz>=2.1.1",
 ]
 
 
@@ -39,5 +44,51 @@ presentation = [
 dev = [
     "pytest>=7.2.2",
     "pytest-cov>=4.0.0",
-    "pytest-flake8>=1.1.1",
+    # https://github.com/tholo/pytest-flake8/issues/91
+    # pytest-flake8 has some maintenance issues, so we do not use.
+    #"pytest-flake8>=1.1.1",
+]
+
+######################################################################
+# Pytest configuration
+[tool.pytest.ini_options]
+testpaths = [
+    "src/primes",
+    "tests"
+]
+markers = [
+    # mark test as slow.
+    "slow",
+]
+addopts = [
+    "-m not slow",
+    "--doctest-modules",
+    "--cov",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=85",
+    "--no-cov-on-fail",
+    #"-x",
+    #"--pdb",
+    # https://github.com/tholo/pytest-flake8/issues/91
+    # pytest-flake8 has some maintenance issues, so we do not use.
+    #"--flake8",
+]
+
+doctest_optionflags = [
+    "ELLIPSIS",
+    "NORMALIZE_WHITESPACE"
+    ]
+
+######################################################################
+# Coverage configuration
+[tool.coverage.run]
+parallel = "True"
+source = [
+    "src/primes"
+]
+
+[tool.coverage.html]
+directory = [
+    "build/_coverage"
 ]

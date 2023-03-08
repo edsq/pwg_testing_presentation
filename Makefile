@@ -5,7 +5,8 @@ SHELL = /bin/bash
 GET_RESOURCES = git clone git@gitlab.com:wsu-courses/iscimath-583-learning-from-images-and-signals_resources.git _ext/Resources
 
 PYTHON_VER ?= 3.11
-PRE ?= PDM_USE_VENV=1 PDM_VENV_BACKEND=virtualenv PDM_IGNORE_SAVED_PYTHON=1
+# https://github.com/pdm-project/pdm/issues/1756#issuecomment-1457979504
+PRE ?= CONDA_PREFIX= PDM_VENV_IN_PROJECT=1 PDM_USE_VENV=1 PDM_VENV_BACKEND=virtualenv PDM_IGNORE_SAVED_PYTHON=1
 PDM ?= pdm
 RUN ?= $(PDM) run
 JUPYTEXT ?= $(RUN) jupytext
@@ -28,6 +29,7 @@ endif
 
 .venv/bin/python$(PYTHON_VER):
 	$(PRE) $(PDM) venv create --force $(PYTHON_VER)
+	$(PRE) $(PDM) use -i .venv
 
 # Jupytext
 sync:
@@ -41,14 +43,16 @@ sync:
 clean:
 	-find . -name "__pycache__" -exec $(RM) -r {} +
 	-find . -name ".ipynb_checkpoints" -exec $(RM) -r {} +
-	-$(RM) -r _htmlcov .coverage .pytest_cache
+	-$(RM) -r .coverage coverage.xml .pytest_cache build 
+	$(MAKE) -C Presentation clean
 
 
-realclean:
+realclean: clean
 ifdef KERNEL
 	-$(PRE) $(RUN) jupyter kernelspec uninstall -f "$(KERNEL)"
 endif
 	-$(RM) -r __pypackage__ .venv
+	$(MAKE) -C Presentation realclean
 
 
 test:
