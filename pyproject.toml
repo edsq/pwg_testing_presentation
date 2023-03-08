@@ -83,12 +83,10 @@ doctest_optionflags = [
 ######################################################################
 # Coverage configuration
 [tool.coverage.run]
-parallel = "True"
+parallel = true
 source = [
-    "src/primes"
+    "src/primes",
 ]
 
 [tool.coverage.html]
-directory = [
-    "build/_coverage"
-]
+directory = "_build/_coverage"
