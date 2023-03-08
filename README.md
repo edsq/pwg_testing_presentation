@@ -2,6 +2,7 @@
 
 [![pipeline status][]][main branch]
 [![coverage report][]][main branch]
+[![Tests](https://github.com/edsq/pwg_testing_presentation/workflows/Tests/badge.svg)](https://github.com/edsq/pwg_testing_presentation/actions?workflow=Tests)
 
 [pipeline status]: https://gitlab.com/wsu-courses/pwg/2023-testing-with-python/badges/main/pipeline.svg
 [coverage report]:  https://gitlab.com/wsu-courses/pwg/2023-testing-with-python/badges/main/coverage.svg
