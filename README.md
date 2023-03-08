@@ -1,8 +1,11 @@
 # Testing with Python: WSU Python Working Group - 8 March 2023
 
-[![pipeline status][]](https://gitlab.com/wsu-courses/pwg/2023-testing-with-python/-/commits/main)
+[![pipeline status][]]([main branch][])
+[![coverage report][]]([main branch][])
 
 [pipeline status]: https://gitlab.com/wsu-courses/pwg/2023-testing-with-python/badges/main/pipeline.svg
+[coverage report]:  https://gitlab.com/wsu-courses/pwg/2023-testing-with-python/badges/main/coverage.svg
+[main branch]: https://gitlab.com/wsu-courses/pwg/2023-testing-with-python/-/commits/main
 
 ## TL;DR
 
